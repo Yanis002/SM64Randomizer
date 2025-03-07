@@ -523,11 +523,12 @@ else
 GZIP                  := libdeflate-gzip
 endif
 # Use the system installed armips if available. Otherwise use the one provided with this repository.
-ifneq (,$(call find-command,armips))
-  RSPASM              := armips
-else
-  RSPASM              := $(TOOLS_DIR)/armips
-endif
+# ifneq (,$(call find-command,armips))
+RSPASM              := ~/tools/armips/build/armips
+
+# else
+#   RSPASM              := $(TOOLS_DIR)/armips
+# endif
 ENDIAN_BITWIDTH       := $(BUILD_DIR)/endian-and-bitwidth
 EMULATOR = mupen64plus
 EMU_FLAGS =

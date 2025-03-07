@@ -11,11 +11,11 @@ ALL_PROGRAMS := armips filesizer rncpack n64graphics n64graphics_ci mio0 slienc 
 LIBAUDIOFILE := audiofile/libaudiofile.a
 
 # Only build armips from tools if it is not found on the system
-ifeq ($(call find-command,armips),)
-  BUILD_PROGRAMS := $(ALL_PROGRAMS)
-else
-  BUILD_PROGRAMS := $(filter-out armips,$(ALL_PROGRAMS))
-endif
+# ifeq ($(call find-command,armips),)
+# BUILD_PROGRAMS := $(ALL_PROGRAMS)
+# else
+BUILD_PROGRAMS := $(filter-out armips,$(ALL_PROGRAMS))
+# endif
 
 default: all
 

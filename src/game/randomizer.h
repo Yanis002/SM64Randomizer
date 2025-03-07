@@ -117,7 +117,7 @@ enum StarColors {
 
 extern s32 curPreset;
 extern struct OptionsSettings gOptionsSettings;
-extern struct OptionsSettings gPresets[];
+extern struct OptionsSettings gPresets[7];
 
 extern struct nodeInfo gLevelWarps[];
 extern u8 gRequiredStars[];
@@ -126,7 +126,7 @@ extern u8 gIsSetSeed;
 extern u8 gIgnoreCollisionDistance;
 extern u8 gWarpDestinations[];
 extern AreaParamsArray *sLevelParams[];
-extern u8 gRandomSongs[19];
+extern u8 gRandomSongs[152];
 extern u8 gSkyboxIndex;
 extern u8 gStarDoorReqLUT[];
 extern struct AvoidancePoint gDynamicAvoidancePoints[50];

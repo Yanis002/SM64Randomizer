@@ -235,6 +235,7 @@
 #define TEXT_RANDOM _("RANDOM")
 
 #define TEXT_RANDOM_OPTIONS _("RANDOMIZE")
+#define TEXT_SAVE_DEFAULT _("SET AS DEFAULT")
 
 #define TEXT_SEED _("SEED")
 #define TEXT_RESET _("RESET")

@@ -66,6 +66,7 @@ struct MainMenuSaveData {
 
     // To increase randomization between loads.
     u32 randomNum;
+    struct OptionsSettings defaultPreset;
     u8 soundMode: 2;
 #ifdef WIDE
     u8 wideMode: 1;

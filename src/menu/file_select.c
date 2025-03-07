@@ -121,6 +121,7 @@ u8 gOverwriteFileSeed = FALSE;
 unsigned char textReturn[] = { TEXT_RETURN };
 
 unsigned char textRandomOptions[] = { TEXT_RANDOM_OPTIONS };
+unsigned char textSaveDefault[] = { TEXT_SAVE_DEFAULT };
 
 unsigned char textRandom[] = { TEXT_RANDOM };
 unsigned char textReset[] = { TEXT_RESET };
@@ -973,6 +974,16 @@ s32 randomize_weighted_3(s32 weight1, s32 weight2, s32 weight3) {
     }
 }
 
+void update_cur_preset() {
+    curPreset = -1;
+
+    for (int i = 0; i < ARRAY_COUNT(gPresets); i++) {
+        if (gOptionsSettings.gameplay.w == gPresets[i].gameplay.w && gOptionsSettings.cosmetic.w == gPresets[i].cosmetic.w) {
+            curPreset = i;
+        }
+    }
+}
+
 void randomize_options() {
     gOptionsSettings.gameplay.s.keepStructure = random_u16() % 2;
 
@@ -1001,8 +1012,11 @@ void randomize_options() {
     }
 
     gOverwriteFileOptions = TRUE;
-    curPreset = -1;
+    // curPreset = -1;
+    update_cur_preset();
 }
+
+extern struct SaveBuffer gSaveBuffer;
 
 static void seed_menu_options_check_clicked_buttons(UNUSED struct Object *seedButton) {
     if (check_clicked_text_width(240, 33, 0, 45)) {
@@ -1014,6 +1028,11 @@ static void seed_menu_options_check_clicked_buttons(UNUSED struct Object *seedBu
     if (check_clicked_text_width(35,33,0,60)) {
         play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
         randomize_options();
+    }
+    if (check_clicked_text_width(120,33,0,80)) {
+        play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+        gSaveBuffer.menuData.defaultPreset = gOptionsSettings;
+        save_main_menu_data();
     }
 }
 
@@ -2478,7 +2497,7 @@ void handle_info_display(struct InfoDisplay displays[], s32 count) {
             if (prevInfoDisplay != i) {
                 infoAlpha = 0;
                 prevInfoDisplay = i;
-            } else if ((abs(gPlayer3Controller->rawStickX) > 10) || (abs(gPlayer3Controller->rawStickY) > 10)) {
+            } else if ((ABS(gPlayer3Controller->rawStickX) > 10) || (ABS(gPlayer3Controller->rawStickY) > 10)) {
                 infoAlpha -= 40;
                 if (infoAlpha < 0) infoAlpha = 0;
             } else if (infoAlpha < 255) {
@@ -2753,7 +2772,8 @@ static void draw_select_seed_menu_option(void) {
     if ((oldSettings.gameplay.w != gOptionsSettings.gameplay.w) || (oldSettings.cosmetic.w != gOptionsSettings.cosmetic.w)) {
         gOverwriteFileOptions = TRUE;
         if (OptionPage != 3) {
-            curPreset = -1;
+            // curPreset = -1;
+            update_cur_preset();
         }
     }
     if (gPlayer3Controller->buttonPressed & R_TRIG) {
@@ -2777,11 +2797,13 @@ static void draw_select_seed_menu_option(void) {
     gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, sTextBaseAlpha);
     print_generic_string(240+1, 33-1, textReturn);
     print_generic_string(35+1,33-1,textRandomOptions);
+    print_generic_string(120+1,33-1,textSaveDefault);
     sprintf(buf, "Settings ID\xE6 %d", gOptionsSettings.gameplay.w);
     print_generic_text_ascii_buf(10,9,buf);
     gDPSetEnvColor(gDisplayListHead++, bottomOptionColor, bottomOptionColor, bottomOptionColor, sTextBaseAlpha);
     print_generic_string(240, 33, textReturn);
     print_generic_string(35, 33, textRandomOptions);
+    print_generic_string(120, 33, textSaveDefault);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, sTextBaseAlpha);
     sprintf(buf, "Settings ID\xE6 %d", gOptionsSettings.gameplay.w);
     print_generic_text_ascii_buf(9,10,buf);
@@ -3082,8 +3104,10 @@ s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
     sSoundMode = save_file_get_sound_mode();
     gOverwriteFileOptions = FALSE;
     gOverwriteFileSeed = FALSE;
-    curPreset = 0;
-    applyPreset();
+    // curPreset = 0;
+    // applyPreset();
+    update_cur_preset();
+    gOptionsSettings = gSaveBuffer.menuData.defaultPreset;
     gCurrLevelNum = LEVEL_UNKNOWN_1;
     return 0;
 }
