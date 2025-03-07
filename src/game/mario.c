@@ -1696,11 +1696,29 @@ void queue_rumble_particles(struct MarioState *m) {
 u8 sDemonStart = 0;
 u8 sDemonTimer = 0;
 
+#ifdef JUKEBOX_TEST
+u8 testSeq = SEQ_EVENT_MERRY_GO_ROUND;
+#endif
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
 s32 execute_mario_action(UNUSED struct Object *obj) {
     s32 inLoop = TRUE;
+
+#ifdef JUKEBOX_TEST
+    u8 oldseq = testSeq;
+
+    if (gPlayer1Controller->buttonPressed & L_JPAD) {
+        testSeq--;
+    } else if (gPlayer1Controller->buttonPressed & R_JPAD) {
+        testSeq++;
+    }
+
+    if (testSeq != oldseq) {
+        set_background_music(0, testSeq, 0);
+    }
+#endif
 
 #ifdef ENABLE_DEBUG_FREE_MOVE
     Vec3s posR;
