@@ -1,3 +1,9 @@
+## What's this?
+
+This is a fork of the randomizer I made because I wanted the custom preset save feature from IronMario, I took the opportunity to add the custom music too, feel free to use! (also there's other changes I made to make it build on my computer lol)
+
+Credits goes to the original authors of course, I only ported the changes.
+
 # ![](https://i.imgur.com/CeOukzk.gif) HackerSM64 ![](https://i.imgur.com/s0LUbTo.gif)
 
 **AFTER CLONING THE REPO, CHECK OUT THE `include/config` FOLDER BEFORE ANYTHING ELSE! THERE'S A LOT OF STUFF IN THIS REPO THAT CAN BE TOGGLED THERE.**
